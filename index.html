@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Przycinacz zdjęc oparty o js">
+    <meta name="author" content="Filip Szarejko">
+    <title>Przycinacz</title>    
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  
+</head>
+<div class =" bg-warning text-black ">
+    
+    <div class ="container">
+      <div class="row">
+        <div class="col-md">
+          
+          <h1>Edytor Grafiki 
+            
+          </h1>
+          <p style="font-family:courier;">Aplikacja oparta o JavaScript</p>
+        </div>
+        <div class="col-md">
+         
+        </div>
+      </div>
+    
+    </div>
+    
+  </div>
+  <h1>
+            
+  </h1>
+<body>
+
+<div class="container">
+      
+        <div class="row">
+            <div class="col-md-9">
+                <div class="btn-group">
+                    <label class="btn btn-primary btn-info" for="inputImage">
+                        <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Wrzuć zdjęcie">
+                            <span class="fa fa-upload"></span>
+                        </span>
+                        
+                    </label>
+                   
+                </div>
+
+                
+
+                <div class="btn-group">
+                <label class="btn btn btn-refresh">
+                <button onClick="window.location.reload();" class="btn btn-secondary">
+                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Przeładuj">
+                        <span class="fa fa-refresh"></span>
+                    </span>
+                </button>
+                </label>
+            </div>
+                <div class="img-container">
+                    <canvas id="canvas" style="max-width:100%;"><img id="image" src="https://res.cloudinary.com/djdxymnyf/image/upload/v1536777437/samples/landscapes/nature-mountains.jpg" alt="Picture"></canvas>
+                </div>
+
+                
+                
+                <div class="docs-buttons">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" data-method="setDragMode" data-option="move">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Przesuń zdjęcie">
+                                <span class="fa fa-arrows"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="setDragMode" data-option="crop">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Przytnij">
+                                <span class="fa fa-crop"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" data-method="zoom" data-option="0.1">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Przybliż">
+                                <span class="fa fa-search-plus"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="zoom" data-option="-0.1">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Oddal">
+                                <span class="fa fa-search-minus"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" data-method="move" data-option="-10" data-second-option="0">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Lewo">
+                                <span class="fa fa-arrow-left"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="move" data-option="10" data-second-option="0">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Prawo">
+                                <span class="fa fa-arrow-right"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="move" data-option="0" data-second-option="-10">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Góra">
+                                <span class="fa fa-arrow-up"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="move" data-option="0" data-second-option="10">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Dół">
+                                <span class="fa fa-arrow-down"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" data-method="rotate" data-option="-15">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Obrót w lewo">
+                                <span class="fa fa-rotate-left"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="rotate" data-option="15">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Obrót w prawo">
+                                <span class="fa fa-rotate-right"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" data-method="scaleX" data-option="-1">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Lust. poziomo">
+                                <span class="fa fa-arrows-h"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-warning" data-method="scaleY" data-option="-1">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Lust. pionowo">
+                                <span class="fa fa-arrows-v"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    
+                </div>
+<br>
+                <div class="docs-buttons">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+                            <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zobacz w oryginalnym rozmiarze">
+                                Podejrzyj i pobierz
+                            </span>
+                        </button>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h3>Filtry</h3>
+                <div class="docs-preview clearfix">
+                    <div class="img-preview preview-sm"></div>
+                </div>
+
+                <div id="accordion">
+                    <h3>Dostosuj</h3>
+                    <div>
+                        <label>Jasność <span class="v" id="v-brightness">0</span></label>
+                        <div class="slider" id="brightness" data-min="-100" data-max="100" data-val="0"></div>
+
+                        <label>Kontrast <span class="v" id="v-contrast">0</span></label>
+                        <div class="slider" id="contrast" data-min="-100" data-max="100" data-val="0"></div>
+
+                        <label>Saturacja <span class="v" id="v-saturation">0</span></label>
+                        <div class="slider" id="saturation" data-min="-100" data-max="100" data-val="0"></div>
+
+                        <label>Jaskrawość <span class="v" id="v-vibrance">0</span></label>
+                        <div class="slider" id="vibrance" data-min="-100" data-max="100" data-val="0"></div>
+
+                        <label>Ekspozycja <span class="v" id="v-exposure">0</span></label>
+                        <div class="slider" id="exposure" data-min="-100" data-max="100" data-val="0"></div>
+
+                        <label>Clip <span class="v" id="v-clip">0</span></label>
+                        <div class="slider" id="clip" data-min="0" data-max="100" data-val="0"></div>
+
+                        <label>Barwa <span class="v" id="v-hue">0</span></label>
+                        <div class="slider" id="hue" data-min="0" data-max="100" data-val="0"></div>
+
+                        <label>Sepia <span class="v" id="v-sepia">0</span></label>
+                        <div class="slider" id="sepia" data-min="0" data-max="100" data-val="0"></div>
+
+                        <label>Szumy <span class="v" id="v-noise">0</span></label>
+                        <div class="slider" id="noise" data-min="0" data-max="100" data-val="0"></div>
+
+                        <label>Ostrość <span class="v" id="v-sharpen">0</span></label>
+                        <div class="slider" id="sharpen" data-min="0" data-max="100" data-val="0"></div>
+                    </div>
+
+                    <h3>Presety</h3>
+                    <div id="caman-presets" class="docs-buttons btn-group-sm">
+
+                        
+                        
+
+                        <button class="btn btn-default" data-preset="clarity">Clarity</button>
+                        <button class="btn btn-default" data-preset="pinhole">Pinhole</button>
+                        <button class="btn btn-default" data-preset="love">Love</button>
+                        <button class="btn btn-default" data-preset="jarques">Jarques</button>
+                        <button class="btn btn-default" data-preset="orangePeel">Orange Peel</button>
+                        <button class="btn btn-default" data-preset="sinCity">Sin City</button>
+                        <button class="btn btn-default" data-preset="grungy">Grungy</button>
+                        <button class="btn btn-default" data-preset="oldBoot">Old Boot</button>
+                        <button class="btn btn-default" data-preset="lomo">Lomo</button>
+                        <button class="btn btn-default" data-preset="vintage">Vintage</button>
+                        <button class="btn btn-default" data-preset="crossProcess">Cross Process</button>
+                        <button class="btn btn-default" data-preset="concentrate">Concentrate</button>
+                        <button class="btn btn-default" data-preset="glowingSun">Glowing Sun</button>
+                        <button class="btn btn-default" data-preset="sunrise">Sunrise</button>
+                        <button class="btn btn-default" data-preset="nostalgia">Nostalgia</button>
+                        <button class="btn btn-default" data-preset="hemingway">Hemingway</button>
+                        <button class="btn btn-default" data-preset="herMajesty">Her Majesty</button>
+                        <button class="btn btn-default" data-preset="hazyDays">Hazy Days</button>
+                    </div>
+                </div>
+                <div style="margin-top:3px"><button id="reset" class="btn btn-warning btn-sm">Wyzeruj</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show a preview of the cropped image in modal -->
+    <div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="getCroppedCanvasTitle">Gotowe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" ></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <a class="btn btn-warning" id="download" href="javascript:void(0);" download="cropped.jpg">Pobierz</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    
+    
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="//fengyuanchen.github.io/js/common.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>  
+      <script>var ASPECT_RATIO = 9 / 6;
+
+        $(function() {
+            'use strict';
+        
+            var console = window.console || {
+                log: function() {}
+            };
+            var URL = window.URL || window.webkitURL;
+            var $image = $('#canvas');
+            var $download = $('#download');
+            var $dataX = $('#dataX');
+            var $dataY = $('#dataY');
+            var $dataHeight = $('#dataHeight');
+            var $dataWidth = $('#dataWidth');
+            var $dataRotate = $('#dataRotate');
+            var $dataScaleX = $('#dataScaleX');
+            var $dataScaleY = $('#dataScaleY');
+            var options = {
+                aspectRatio: ASPECT_RATIO,
+                preview: '.img-preview',
+                crop: function(e) {
+                    $dataX.val(Math.round(e.detail.x));
+                    $dataY.val(Math.round(e.detail.y));
+                    $dataHeight.val(Math.round(e.detail.height));
+                    $dataWidth.val(Math.round(e.detail.width));
+                    $dataRotate.val(e.detail.rotate);
+                    $dataScaleX.val(e.detail.scaleX);
+                    $dataScaleY.val(e.detail.scaleY);
+                }
+            };
+            var originalImageURL = $('#canvas img').attr('src');
+            var uploadedImageName = 'cropped.jpg';
+            var uploadedImageType = 'image/jpeg';
+            var uploadedImageURL;
+            
+            var cropper;
+            var caman = Caman("#canvas", originalImageURL, function() {
+                cropper = $("#canvas").cropper(options).data("cropper");
+                caman.render(function() {
+                    cropper.replace(this.toBase64());
+                });
+            });
+        
+            
+
+            // Tooltip
+            $('[data-toggle="tooltip"]').tooltip();
+        
+            // Cropper
+            $image.on({
+                ready: function(e) {
+                    console.log(e.type);
+                },
+                cropstart: function(e) {
+                    console.log(e.type, e.detail.action);
+                },
+                cropmove: function(e) {
+                    console.log(e.type, e.detail.action);
+                },
+                cropend: function(e) {
+                    console.log(e.type, e.detail.action);
+                },
+                crop: function(e) {
+                    console.log(e.type);
+                },
+                zoom: function(e) {
+                    console.log(e.type, e.detail.ratio);
+                }
+            }).cropper(options);
+        
+            $('#crop').click(function() {
+                console.log($image.cropper('getCropBoxData'));
+                $image.cropper('getCroppedCanvas').toBlob(function(blob) {
+                    var formData = new FormData();
+        
+                    formData.append('file', blob, '_cut.png');
+                    //formData.append('image_id', '15');
+                    //formData.append('destination', '15');
+        
+                    $.ajax('savecropimage.php', {
+                        method: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        dataType: "json",
+                        success: function(json_respond) {
+                            if (json_respond.success == true) {
+                                // SUCCESS
+                                alert(json_respond.message);
+                            } else {
+                                // ERROR
+                                alert(json_respond.message);
+                            }
+                            location.reload();
+                        },
+                        error: function() {
+                            alert('Error');
+                        }
+                    });
+                });
+            });
+        
+            // Buttons
+            if (!$.isFunction(document.createElement('canvas').getContext)) {
+                $('button[data-method="getCroppedCanvas"]').prop('disabled', true);
+            }
+        
+            if (typeof document.createElement('cropper').style.transition === 'undefined') {
+                $('button[data-method="rotate"]').prop('disabled', true);
+                $('button[data-method="scale"]').prop('disabled', true);
+            }
+        
+            // Download
+            if (typeof $download[0].download === 'undefined') {
+                $download.addClass('disabled');
+            }
+        
+            // Methods
+            $('.docs-buttons').on('click', '[data-method]', function() {
+                var $this = $(this);
+                var data = $this.data();
+                var cropper = $image.data('cropper');
+                var cropped;
+                var $target;
+                var result;
+        
+                if ($this.prop('disabled') || $this.hasClass('disabled')) {
+                    return;
+                }
+        
+                if (cropper && data.method) {
+                    data = $.extend({}, data); // Clone a new one
+        
+                    if (typeof data.target !== 'undefined') {
+                        $target = $(data.target);
+        
+                        if (typeof data.option === 'undefined') {
+                            try {
+                                data.option = JSON.parse($target.val());
+                            } catch (e) {
+                                console.log(e.message);
+                            }
+                        }
+                    }
+                    cropped = cropper.cropped;
+                    switch (data.method) {
+                        case 'rotate':
+                            if (cropped && options.viewMode > 0) {
+                                $image.cropper('clear');
+                            }
+                            break;
+        
+                        case 'getCroppedCanvas':
+                            if (uploadedImageType === 'image/jpeg') {
+                                if (!data.option) {
+                                    data.option = {};
+                                }
+                                data.option.fillColor = '#fff';
+                            }
+                            break;
+                    }
+        
+                    result = $image.cropper(data.method, data.option, data.secondOption);
+        
+                    switch (data.method) {
+                        case 'rotate':
+                            if (cropped && options.viewMode > 0) {
+                                $image.cropper('crop');
+                            }
+                            break;
+        
+                        case 'scaleX':
+                        case 'scaleY':
+                            $(this).data('option', -data.option);
+                            break;
+        
+                        case 'getCroppedCanvas':
+                            if (result) {
+                                // Bootstrap's Modal
+                                $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
+        
+                                if (!$download.hasClass('disabled')) {
+                                    download.download = uploadedImageName;
+                                    $download.attr('href', result.toDataURL(uploadedImageType));
+                                }
+                            }
+                            break;
+        
+                        case 'destroy':
+                            if (uploadedImageURL) {
+                                URL.revokeObjectURL(uploadedImageURL);
+                                uploadedImageURL = '';
+                                $image.attr('src', originalImageURL);
+                            }
+                            break;
+                    }
+        
+                    if ($.isPlainObject(result) && $target) {
+                        try {
+                            $target.val(JSON.stringify(result));
+                        } catch (e) {
+                            console.log(e.message);
+                        }
+                    }
+                }
+            });
+        
+            // Keyboard
+            $(document.body).on('keydown', function(e) {
+                if (e.target !== this || !$image.data('cropper') || this.scrollTop > 300) {
+                    return;
+                }
+                switch (e.which) {
+                    case 37:
+                        e.preventDefault();
+                        $image.cropper('move', -5, 0);
+                        break;
+                    case 38:
+                        e.preventDefault();
+                        $image.cropper('move', 0, -5);
+                        break;
+                    case 39:
+                        e.preventDefault();
+                        $image.cropper('move', 5, 0);
+                        break;
+                    case 40:
+                        e.preventDefault();
+                        $image.cropper('move', 0, 5);
+                        break;
+                }
+            });
+        
+            // Import image
+            var $inputImage = $('#inputImage');
+        
+            if (URL) {
+                $inputImage.change(function() {
+        
+                    var files = this.files;
+                    var file;
+        
+        
+                    if (files && files.length) {
+        
+                        file = files[0];
+        
+                        if (/^image\/\w+$/.test(file.type)) {
+        
+                            uploadedImageName = file.name;
+                            uploadedImageType = file.type;
+        
+                            if (uploadedImageURL) {
+                                URL.revokeObjectURL(uploadedImageURL);
+                            }
+        
+                            var url = URL.createObjectURL(file);
+                            caman = Caman("#canvas", url, function() {
+        
+                                //alert('file url: ' + url);
+        
+                                URL.revokeObjectURL(url);
+                                cropper = $("#canvas").cropper().data("cropper");
+                                
+                            });
+        
+                            uploadedImageURL = URL.createObjectURL(file);
+                            
+                            $image.cropper('destroy').attr(uploadedImageURL).cropper(options);
+                            
+                            
+                            $inputImage.val('');
+                            
+                            
+                        } else {
+                            window.alert('Please choose an image file.');
+                        }
+                    }
+                });
+            } else {
+                $inputImage.prop('disabled', true).parent().addClass('disabled');
+            }
+        
+            function applyFilters() {
+                caman.revert(false);
+        
+                $('.slider').each(function() {
+                    var op = $(this).attr('id');
+                    var value = $(this).data('val');
+        
+                    if (value === 0) {
+                        return;
+                    }
+        
+                    caman[op](value);
+                });
+            }
+        
+            function resetFilters() {
+                $('.slider').each(function() {
+                    var op = $(this).attr('id');
+        
+                    $('#' + op).slider('option', 'value', $(this).attr('data-val'));
+                });
+            }
+        
+            $('#accordion').accordion({
+                collapsible: true
+            });
+        
+            $('.slider').each(function() {
+                var op = $(this).attr('id');
+        
+                $('#' + op).slider({
+                    min: $(this).data('min'),
+                    max: $(this).data('max'),
+                    val: $(this).data('val'),
+                    change: function(e, ui) {
+                        $('#v-' + op).html(ui.value);
+                        $(this).data('val', ui.value);
+        
+                        if (e.originalEvent === undefined) {
+                            return;
+                        }
+        
+                        applyFilters();
+                        caman.render(function() {
+                            cropper.replace(this.toBase64(), true);
+                        });
+                    }
+                });
+            });
+        
+        
+            $('#caman-presets button').click(function(e) {
+                resetFilters();
+                var preset = $(this).data('preset');
+                console.log("preset change: " + preset);
+                caman.revert(true);
+                caman[preset]();
+                caman.render(function() {
+                    cropper.replace(this.toBase64(), true);
+                });
+            });
+        
+            $('#reset').click(function() {
+                caman.reset();
+                caman.render(function() {
+                    cropper.replace(this.toBase64(), true);
+                });
+                resetFilters();
+            });
+        
+        });</script>
+  </body>
+</html>
